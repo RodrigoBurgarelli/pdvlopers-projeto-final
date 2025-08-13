@@ -1,7 +1,7 @@
 import styles from "./clients.module.css";
 import React, { useState } from "react";
 
-export default function Clients() {
+export function Clients() {
     const [clientes, setClientes] = useState([]);
     const [form, setForm] = useState({
         nome: "",
@@ -68,7 +68,7 @@ export default function Clients() {
     const clientesPagina = clientes.slice(indexPrimeiro, indexUltimo);
     const totalPaginas = Math.ceil(clientes.length / itensPorPagina);
 
-    return
+    return (
     <div className={styles.clients}>
         <header className="header-clientes">
             <h2>Clientes</h2>
@@ -181,5 +181,6 @@ export default function Clients() {
             )}
         </main>
     </div>
+    );
 
 }
