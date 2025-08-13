@@ -84,7 +84,7 @@ export function Clients() {
                             onChange={handleChange}
                             placeholder="Nome"
                         />
-                        {erros.nome && <small className="erro">{erros.nome}</small>}
+                        {errors.nome && <small className="erro">{errors.nome}</small>}
                     </div>
 
                     <div className="campo">
@@ -94,7 +94,7 @@ export function Clients() {
                             onChange={handleChange}
                             placeholder="CPF"
                         />
-                        {erros.cpf && <small className="erro">{erros.cpf}</small>}
+                        {errors.cpf && <small className="erro">{erros.cpf}</small>}
                     </div>
 
                     <div className="campo">
@@ -113,7 +113,7 @@ export function Clients() {
                             onChange={handleChange}
                             placeholder="E-mail"
                         />
-                        {erros.email && <small className="erro">{erros.email}</small>}
+                        {errors.email && <small className="erro">{erros.email}</small>}
                     </div>
 
                     <div className="campo">

@@ -2,47 +2,53 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-}
-
-.container {
     padding: 20px;
     font-family: Arial, sans-serif;
+    flex-direction: column;
 }
 
-.header {
+.header-clientes {
     background: #fffffa;
     color: black;
     padding: 10px;
     border-radius: 6px;
     margin-bottom: 20px;
+    border: solid black;
+    width: 100%;
+    height: 25vh;
+    text-align: center;
 }
 
 main {
     display: flex;
     flex-direction: column;
     gap: 20px;
+    width: 100%;
+    height: 75vh;
+    max-width: 800px;
 }
 
-.cadastroSection {
+.cadastro-section {
     border: 1px solid #ccc;
     padding: 15px;
     border-radius: 8px;
+    background-color: #f9f9f9;
 }
 
-.form {
+.form-cadastro {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 15px;
 }
 
 .campo {
     display: flex;
     flex-direction: column;
+    flex: 1 1 45%;
 }
 
 .campo input {
-    padding: 5px;
+    padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
 }
@@ -50,40 +56,44 @@ main {
 .erro {
     color: red;
     font-size: 12px;
+    margin-top: 4px;
 }
 
-.btnCadastrar {
+.btn-cadastrar {
     background: #912f40;
     color: white;
-    padding: 5px 15px;
+    padding: 8px 20px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    align-self: flex-start;
 }
 
-.btnCadastrar:hover {
+.btn-cadastrar:hover {
     background: #702632;
 }
 
-.tabela {
+.tabela-clientes {
     border-collapse: collapse;
     width: 100%;
 }
 
-.tabela th,
-.tabela td {
+.tabela-clientes th,
+.tabela-clientes td {
     border: 1px solid #ccc;
     padding: 8px;
     text-align: left;
 }
 
-.tabela th {
+.tabela-clientes th {
     background: #f2f2f2;
 }
 
 .paginacao {
     display: flex;
     gap: 5px;
+    justify-content: center;
+    margin-top: 10px;
 }
 
 .paginacao button {
