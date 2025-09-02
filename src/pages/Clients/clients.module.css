@@ -1,4 +1,11 @@
+.mainContent {
+    display: flex;
+    flex-direction: row;
+}
+
 .clients {
+    flex: 1;
+    max-width: 100%;   
     display: flex;
     flex-direction: column;
     align-items: stretch;
@@ -7,6 +14,7 @@
     background-color: #fffffa;
     min-height: 100vh;
     box-sizing: border-box;
+    padding-left: 16rem;
 }
 
 .headerClientes {

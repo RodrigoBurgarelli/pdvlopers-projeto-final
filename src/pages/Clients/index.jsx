@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import styles from "./clients.module.css";
+import { Header } from "../../components/Header/Header";
+import { Sidebar } from "../../components/Sidebar/Sidebar";
 
 export function Clients() {
     const [clientes, setClientes] = useState([]);
@@ -214,250 +216,256 @@ export function Clients() {
     const totalPaginas = Math.ceil(clientesFiltrados.length / itensPorPagina);
 
     return (
-        <div className={styles.clients}>
-            <div className={styles.listaClientesContainer}>
-                <div className={styles.headerClientes}>
-                    <h2>Clientes</h2>
-                </div>
-
-                <div className={styles.actionsBar}>
-                    <input
-                        type="text"
-                        placeholder="Pesquisar cliente..."
-                        value={filtro}
-                        onChange={(e) => setFiltro(e.target.value)}
-                    />
-                    <button
-                        className={styles.btnNovoCliente}
-                        onClick={() => {
-                            resetForm();
-                            setMostrarModal(true);
-                        }}
-                    >
-                        Novo Cliente
-                    </button>
-                </div>
-
-                <div className={styles.listaClientes}>
-                    {clientesPagina.map((cliente) => (
-                        <div
-                            key={cliente.id}
-                            className={styles.clienteCard}
-                            onClick={() => handleAbrirModal(cliente)}
-                        >
-                            <div className={styles.cardLeft}>
-                                <span className={styles.nomeCliente}>{cliente.nome}</span>
-                            </div>
-                            <div className={styles.cardCenter}>
-                                <span className={styles.pontuacao}>
-                                    Pontuação:{" "}
-                                    {calcularPontos(cliente.compras)
-                                        .toString()
-                                        .padStart(4, "0")}
-                                </span>
-                            </div>
-                            <div className={styles.cardActions}>
-                                <button
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        handleEditar(cliente);
-                                    }}
-                                >
-                                    Editar
-                                </button>
-                                <button
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        handleExcluir(cliente.id);
-                                    }}
-                                >
-                                    Excluir
-                                </button>
-                            </div>
-                        </div>
-                    ))}
-
-                    {Array.from({
-                        length: itensPorPagina - clientesPagina.length,
-                    }).map((_, i) => (
-                        <div
-                            key={`vazio-${i}`}
-                            className={styles.clienteCardVazio}
-                        ></div>
-                    ))}
-                </div>
-
-                <div className={styles.paginacao}>
-                    <button
-                        onClick={() =>
-                            setPaginaAtual((prev) => Math.max(prev - 1, 1))
-                        }
-                    >
-                        {"<"}
-                    </button>
-                    {Array.from({ length: totalPaginas || 1 }, (_, i) => (
-                        <button
-                            key={i}
-                            onClick={() => setPaginaAtual(i + 1)}
-                            className={paginaAtual === i + 1 ? styles.ativo : ""}
-                        >
-                            {i + 1}
-                        </button>
-                    ))}
-                    <button
-                        onClick={() =>
-                            setPaginaAtual((prev) =>
-                                Math.min(prev + 1, totalPaginas || 1)
-                            )
-                        }
-                    >
-                        {">"}
-                    </button>
-                </div>
-            </div>
-
-            {mostrarModal && (
-                <div className={styles.modalOverlay}>
-                    <div className={styles.modal}>
-                        <h3>
-                            {clienteEditando
-                                ? "Editar Cliente"
-                                : "Cadastrar Novo Cliente"}
-                        </h3>
-
-                        <div className={styles.formCadastro}>
-                            <div className={`${styles.campo} ${styles.nome}`}>
-                                <label>Nome Completo</label>
-                                <input
-                                    type="text"
-                                    value={nome}
-                                    onChange={(e) => setNome(e.target.value)}
-                                />
-                                {erros.nome && (
-                                    <small className={styles.erro}>{erros.nome}</small>
-                                )}
-                            </div>
-
-                            <div className={`${styles.campo} ${styles.cpf}`}>
-                                <label>CPF</label>
-                                <input
-                                    type="text"
-                                    value={cpf}
-                                    onChange={(e) => setCpf(formatarCpf(e.target.value))}
-                                />
-                                {erros.cpf && (
-                                    <small className={styles.erro}>{erros.cpf}</small>
-                                )}
-                            </div>
-
-                            <div className={`${styles.campo} ${styles.email}`}>
-                                <label>E-mail</label>
-                                <input
-                                    type="email"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                />
-                                {erros.email && (
-                                    <small className={styles.erro}>{erros.email}</small>
-                                )}
-                            </div>
-
-                            <div className={`${styles.campo} ${styles.celular}`}>
-                                <label>Celular</label>
-                                <input
-                                    type="text"
-                                    value={celular}
-                                    onChange={(e) => setCelular(formatarCelular(e.target.value))}
-                                />
-                                {erros.celular && (
-                                    <small className={styles.erro}>{erros.celular}</small>
-                                )}
-                            </div>
-
-                            <div className={`${styles.campo} ${styles.fixo}`}>
-                                <label>Telefone Fixo</label>
-                                <input
-                                    type="text"
-                                    value={fixo}
-                                    onChange={(e) => setFixo(formatarFixo(e.target.value))}
-                                />
-                                {erros.fixo && (
-                                    <small className={styles.erro}>{erros.fixo}</small>
-                                )}
-                            </div>
-
-                            <div className={`${styles.campo} ${styles.logradouro}`}>
-                                <label>Logradouro</label>
-                                <input
-                                    type="text"
-                                    value={logradouro}
-                                    onChange={(e) => setLogradouro(e.target.value)}
-                                />
-                            </div>
-
-                            <div className={`${styles.campo} ${styles.numero}`}>
-                                <label>Número</label>
-                                <input
-                                    type="text"
-                                    value={numero}
-                                    onChange={(e) => setNumero(e.target.value)}
-                                />
-                            </div>
-
-                            <div className={`${styles.campo} ${styles.bairro}`}>
-                                <label>Bairro</label>
-                                <input
-                                    type="text"
-                                    value={bairro}
-                                    onChange={(e) => setBairro(e.target.value)}
-                                />
-                            </div>
-
-                            <div className={`${styles.campo} ${styles.cidade}`}>
-                                <label>Cidade</label>
-                                <input
-                                    type="text"
-                                    value={cidade}
-                                    onChange={(e) => setCidade(e.target.value)}
-                                />
-                            </div>
-
-                            <div className={`${styles.campo} ${styles.estado}`}>
-                                <label>Estado</label>
-                                <input
-                                    type="text"
-                                    value={estado}
-                                    onChange={(e) => setEstado(e.target.value)}
-                                />
-                                {erros.estado && (
-                                    <small className={styles.erro}>{erros.estado}</small>
-                                )}
-                            </div>
-
-                            <div className={`${styles.campo} ${styles.cep}`}>
-                                <label>CEP</label>
-                                <input
-                                    type="text"
-                                    value={cep}
-                                    onChange={(e) => setCep(formatarCep(e.target.value))}
-                                />
-                                {erros.cep && (
-                                    <small className={styles.erro}>{erros.cep}</small>
-                                )}
-                            </div>
+        <div className="app">
+            <Header />
+            <div className="mainContent">
+                <Sidebar />
+                <div className={styles.clients}>
+                    <div className={styles.listaClientesContainer}>
+                        <div className={styles.headerClientes}>
+                            <h2>Clientes</h2>
                         </div>
 
-                        <div className={styles.modalActions}>
-                            <button onClick={() => setMostrarModal(false)}>
-                                Cancelar
+                        <div className={styles.actionsBar}>
+                            <input
+                                type="text"
+                                placeholder="Pesquisar cliente..."
+                                value={filtro}
+                                onChange={(e) => setFiltro(e.target.value)}
+                            />
+                            <button
+                                className={styles.btnNovoCliente}
+                                onClick={() => {
+                                    resetForm();
+                                    setMostrarModal(true);
+                                }}
+                            >
+                                Novo Cliente
                             </button>
-                            <button onClick={handleCadastrar}>
-                                {clienteEditando ? "Salvar Alterações" : "Cadastrar"}
+                        </div>
+
+                        <div className={styles.listaClientes}>
+                            {clientesPagina.map((cliente) => (
+                                <div
+                                    key={cliente.id}
+                                    className={styles.clienteCard}
+                                    onClick={() => handleAbrirModal(cliente)}
+                                >
+                                    <div className={styles.cardLeft}>
+                                        <span className={styles.nomeCliente}>{cliente.nome}</span>
+                                    </div>
+                                    <div className={styles.cardCenter}>
+                                        <span className={styles.pontuacao}>
+                                            Pontuação:{" "}
+                                            {calcularPontos(cliente.compras)
+                                                .toString()
+                                                .padStart(4, "0")}
+                                        </span>
+                                    </div>
+                                    <div className={styles.cardActions}>
+                                        <button
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                handleEditar(cliente);
+                                            }}
+                                        >
+                                            Editar
+                                        </button>
+                                        <button
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                handleExcluir(cliente.id);
+                                            }}
+                                        >
+                                            Excluir
+                                        </button>
+                                    </div>
+                                </div>
+                            ))}
+
+                            {Array.from({
+                                length: itensPorPagina - clientesPagina.length,
+                            }).map((_, i) => (
+                                <div
+                                    key={`vazio-${i}`}
+                                    className={styles.clienteCardVazio}
+                                ></div>
+                            ))}
+                        </div>
+
+                        <div className={styles.paginacao}>
+                            <button
+                                onClick={() =>
+                                    setPaginaAtual((prev) => Math.max(prev - 1, 1))
+                                }
+                            >
+                                {"<"}
+                            </button>
+                            {Array.from({ length: totalPaginas || 1 }, (_, i) => (
+                                <button
+                                    key={i}
+                                    onClick={() => setPaginaAtual(i + 1)}
+                                    className={paginaAtual === i + 1 ? styles.ativo : ""}
+                                >
+                                    {i + 1}
+                                </button>
+                            ))}
+                            <button
+                                onClick={() =>
+                                    setPaginaAtual((prev) =>
+                                        Math.min(prev + 1, totalPaginas || 1)
+                                    )
+                                }
+                            >
+                                {">"}
                             </button>
                         </div>
                     </div>
+
+                    {mostrarModal && (
+                        <div className={styles.modalOverlay}>
+                            <div className={styles.modal}>
+                                <h3>
+                                    {clienteEditando
+                                        ? "Editar Cliente"
+                                        : "Cadastrar Novo Cliente"}
+                                </h3>
+
+                                <div className={styles.formCadastro}>
+                                    <div className={`${styles.campo} ${styles.nome}`}>
+                                        <label>Nome Completo</label>
+                                        <input
+                                            type="text"
+                                            value={nome}
+                                            onChange={(e) => setNome(e.target.value)}
+                                        />
+                                        {erros.nome && (
+                                            <small className={styles.erro}>{erros.nome}</small>
+                                        )}
+                                    </div>
+
+                                    <div className={`${styles.campo} ${styles.cpf}`}>
+                                        <label>CPF</label>
+                                        <input
+                                            type="text"
+                                            value={cpf}
+                                            onChange={(e) => setCpf(formatarCpf(e.target.value))}
+                                        />
+                                        {erros.cpf && (
+                                            <small className={styles.erro}>{erros.cpf}</small>
+                                        )}
+                                    </div>
+
+                                    <div className={`${styles.campo} ${styles.email}`}>
+                                        <label>E-mail</label>
+                                        <input
+                                            type="email"
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value)}
+                                        />
+                                        {erros.email && (
+                                            <small className={styles.erro}>{erros.email}</small>
+                                        )}
+                                    </div>
+
+                                    <div className={`${styles.campo} ${styles.celular}`}>
+                                        <label>Celular</label>
+                                        <input
+                                            type="text"
+                                            value={celular}
+                                            onChange={(e) => setCelular(formatarCelular(e.target.value))}
+                                        />
+                                        {erros.celular && (
+                                            <small className={styles.erro}>{erros.celular}</small>
+                                        )}
+                                    </div>
+
+                                    <div className={`${styles.campo} ${styles.fixo}`}>
+                                        <label>Telefone Fixo</label>
+                                        <input
+                                            type="text"
+                                            value={fixo}
+                                            onChange={(e) => setFixo(formatarFixo(e.target.value))}
+                                        />
+                                        {erros.fixo && (
+                                            <small className={styles.erro}>{erros.fixo}</small>
+                                        )}
+                                    </div>
+
+                                    <div className={`${styles.campo} ${styles.logradouro}`}>
+                                        <label>Logradouro</label>
+                                        <input
+                                            type="text"
+                                            value={logradouro}
+                                            onChange={(e) => setLogradouro(e.target.value)}
+                                        />
+                                    </div>
+
+                                    <div className={`${styles.campo} ${styles.numero}`}>
+                                        <label>Número</label>
+                                        <input
+                                            type="text"
+                                            value={numero}
+                                            onChange={(e) => setNumero(e.target.value)}
+                                        />
+                                    </div>
+
+                                    <div className={`${styles.campo} ${styles.bairro}`}>
+                                        <label>Bairro</label>
+                                        <input
+                                            type="text"
+                                            value={bairro}
+                                            onChange={(e) => setBairro(e.target.value)}
+                                        />
+                                    </div>
+
+                                    <div className={`${styles.campo} ${styles.cidade}`}>
+                                        <label>Cidade</label>
+                                        <input
+                                            type="text"
+                                            value={cidade}
+                                            onChange={(e) => setCidade(e.target.value)}
+                                        />
+                                    </div>
+
+                                    <div className={`${styles.campo} ${styles.estado}`}>
+                                        <label>Estado</label>
+                                        <input
+                                            type="text"
+                                            value={estado}
+                                            onChange={(e) => setEstado(e.target.value)}
+                                        />
+                                        {erros.estado && (
+                                            <small className={styles.erro}>{erros.estado}</small>
+                                        )}
+                                    </div>
+
+                                    <div className={`${styles.campo} ${styles.cep}`}>
+                                        <label>CEP</label>
+                                        <input
+                                            type="text"
+                                            value={cep}
+                                            onChange={(e) => setCep(formatarCep(e.target.value))}
+                                        />
+                                        {erros.cep && (
+                                            <small className={styles.erro}>{erros.cep}</small>
+                                        )}
+                                    </div>
+                                </div>
+
+                                <div className={styles.modalActions}>
+                                    <button onClick={() => setMostrarModal(false)}>
+                                        Cancelar
+                                    </button>
+                                    <button onClick={handleCadastrar}>
+                                        {clienteEditando ? "Salvar Alterações" : "Cadastrar"}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
                 </div>
-            )}
+            </div>
         </div>
     );
 }
