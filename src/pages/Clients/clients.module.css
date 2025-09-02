@@ -77,8 +77,8 @@
 }
 
 .clienteCard {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
     align-items: center;
     width: 100%;
     padding: 15px;
@@ -94,18 +94,6 @@
     background-color: #f5f5f5;
 }
 
-.cardInfo {
-    display: flex;
-    gap: 40px;
-    font-weight: bold;
-    font-size: 16px;
-}
-
-.cardInfo span.nomeCliente {
-    font-size: 18px;
-    padding-left: 10px;
-}
-
 .cardLeft {
     text-align: left;
     font-weight: bold;
@@ -113,17 +101,14 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    font-size: 18px;
+    justify-self: left;
 }
 
 .cardCenter {
     display: flex;
     justify-content: center;
-}
-
-.cardRight {
-    display: flex;
-    gap: 10px;
-    justify-content: flex-end;
+    justify-self: center;
 }
 
 .pontuacao {
@@ -141,6 +126,7 @@
 .cardActions {
     display: flex;
     gap: 10px;
+    justify-self: end;
 }
 
 .cardActions button {

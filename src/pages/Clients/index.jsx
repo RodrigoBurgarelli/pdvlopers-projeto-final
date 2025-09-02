@@ -43,6 +43,52 @@ export function Clients() {
     const calcularPontos = (compras) => {
         return Math.floor((compras || 0) / 100) * 10;
     };
+    const formatarCelular = (valor) => {
+        const numeros = valor.replace(/\D/g, "");
+        const parte1 = numeros.slice(0, 2);
+        const parte2 = numeros.slice(2, 7);
+        const parte3 = numeros.slice(7, 11);
+        if (parte3) return `(${parte1}) ${parte2}-${parte3}`;
+        if (parte2) return `(${parte1}) ${parte2}`;
+        if (parte1) return `(${parte1}`;
+        return "";
+    };
+
+    const formatarFixo = (valor) => {
+        const numeros = valor.replace(/\D/g, "");
+        const parte1 = numeros.slice(0, 2);
+        const parte2 = numeros.slice(2, 6);
+        const parte3 = numeros.slice(6, 10);
+        if (parte3) return `(${parte1}) ${parte2}-${parte3}`;
+        if (parte2) return `(${parte1}) ${parte2}`;
+        if (parte1) return `(${parte1}`;
+        return "";
+    };
+
+    const formatarCep = (valor) => {
+        const numeros = valor.replace(/\D/g, "");
+        const parte1 = numeros.slice(0, 2);
+        const parte2 = numeros.slice(2, 5);
+        const parte3 = numeros.slice(5, 8);
+        if (parte3) return `${parte1}.${parte2}-${parte3}`;
+        if (parte2) return `${parte1}.${parte2}`;
+        if (parte1) return `${parte1}`;
+        return "";
+    };
+
+    const formatarCpf = (valor) => {
+        const numeros = valor.replace(/\D/g, "");
+        const parte1 = numeros.slice(0, 3);
+        const parte2 = numeros.slice(3, 6);
+        const parte3 = numeros.slice(6, 9);
+        const parte4 = numeros.slice(9, 11);
+
+        if (parte4) return `${parte1}.${parte2}.${parte3}-${parte4}`;
+        if (parte3) return `${parte1}.${parte2}.${parte3}`;
+        if (parte2) return `${parte1}.${parte2}`;
+        if (parte1) return `${parte1}`;
+        return "";
+    };
 
     const validarCampos = () => {
         const novosErros = {};
@@ -199,38 +245,34 @@ export function Clients() {
                             className={styles.clienteCard}
                             onClick={() => handleAbrirModal(cliente)}
                         >
-                            <div className={styles.cardInfo}>
-                                <div className={styles.cardLeft}>
-                                    <span className={styles.nomeCliente}>{cliente.nome}</span>
-                                </div>
-                                <div className={styles.cardCenter}>
-                                    <span className={styles.pontuacao}>
-                                        Pontuação:{" "}
-                                        {calcularPontos(cliente.compras)
-                                            .toString()
-                                            .padStart(4, "0")}
-                                    </span>
-                                </div>
+                            <div className={styles.cardLeft}>
+                                <span className={styles.nomeCliente}>{cliente.nome}</span>
                             </div>
-                            <div className={styles.cardRight}>
-                                <div className={styles.cardActions}>
-                                    <button
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            handleEditar(cliente);
-                                        }}
-                                    >
-                                        Editar
-                                    </button>
-                                    <button
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            handleExcluir(cliente.id);
-                                        }}
-                                    >
-                                        Excluir
-                                    </button>
-                                </div>
+                            <div className={styles.cardCenter}>
+                                <span className={styles.pontuacao}>
+                                    Pontuação:{" "}
+                                    {calcularPontos(cliente.compras)
+                                        .toString()
+                                        .padStart(4, "0")}
+                                </span>
+                            </div>
+                            <div className={styles.cardActions}>
+                                <button
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleEditar(cliente);
+                                    }}
+                                >
+                                    Editar
+                                </button>
+                                <button
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleExcluir(cliente.id);
+                                    }}
+                                >
+                                    Excluir
+                                </button>
                             </div>
                         </div>
                     ))}
@@ -301,7 +343,7 @@ export function Clients() {
                                 <input
                                     type="text"
                                     value={cpf}
-                                    onChange={(e) => setCpf(e.target.value)}
+                                    onChange={(e) => setCpf(formatarCpf(e.target.value))}
                                 />
                                 {erros.cpf && (
                                     <small className={styles.erro}>{erros.cpf}</small>
@@ -325,7 +367,7 @@ export function Clients() {
                                 <input
                                     type="text"
                                     value={celular}
-                                    onChange={(e) => setCelular(e.target.value)}
+                                    onChange={(e) => setCelular(formatarCelular(e.target.value))}
                                 />
                                 {erros.celular && (
                                     <small className={styles.erro}>{erros.celular}</small>
@@ -337,7 +379,7 @@ export function Clients() {
                                 <input
                                     type="text"
                                     value={fixo}
-                                    onChange={(e) => setFixo(e.target.value)}
+                                    onChange={(e) => setFixo(formatarFixo(e.target.value))}
                                 />
                                 {erros.fixo && (
                                     <small className={styles.erro}>{erros.fixo}</small>
@@ -397,7 +439,7 @@ export function Clients() {
                                 <input
                                     type="text"
                                     value={cep}
-                                    onChange={(e) => setCep(e.target.value)}
+                                    onChange={(e) => setCep(formatarCep(e.target.value))}
                                 />
                                 {erros.cep && (
                                     <small className={styles.erro}>{erros.cep}</small>
